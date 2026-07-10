@@ -1,0 +1,27 @@
+read = accept input from the user and store it on variable
+
+echo :enter ur namr"
+read name
+echo " hey $name"
+or read -p
+read -p :enter ur namr : name 
+echo $name
+read -s -p = to hide the input like passwd
+
+Command-line arguments are values passed to the script when it starts.
+$0=script name
+$1= first argument
+$2 = sec
+$# =number of argument
+"$@" keeps each argument separate.
+"$*" combines all arguments into a single string.
+$? stores the exit status of the previously executed command. A value of 0 indicates success, while any non-zero value indicates an error.
+
+#!/bin/bash
+
+echo "Script Name : $0"
+echo "First Argument : $1"
+echo "Second Argument : $2"
+echo "Number of Arguments : $#"
+echo "All Arguments : $@"
+echo "Current Script PID : $$"
