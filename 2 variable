@@ -1,0 +1,22 @@
+A variable stores data temporarily in memory so it can be reused throughout a shell script. 
+It makes scripts more readable, reusable, and easier to maintain.
+
+Declare a Variable
+                 VARIABLE_NAME=value
+                 NAME="Shahina"
+                 AGE=24
+                CITY="Palakkad"
+
+ Access it using $:               
+                 echo $NAME
+                 
+Types of Variables
+   local variable = create inside the currenty shell or script
+ Environment Variables
+Available to the current shell and inherited by child processes.
+AVAILABLE TO THE CHILD PROCESS AFTER EXPORT IT
+eg echo $HOME = /home/shahina =home directory
+echo $USER
+echo $PATH
+display env var =  env or printenv
+delete UNSET varname
