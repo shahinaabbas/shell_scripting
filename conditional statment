@@ -1,0 +1,65 @@
+A conditional statement allows a script to make decisions based on whether a condition is true or false.
+
+IF 
+   IF [ CONDITION ]
+  THEN 
+       COMMAND
+  IFIF ELSE
+    IF [ CONDITION ]
+  THEN
+       COMMANDS
+  ELSE
+      COMMANDS
+  FI
+  | Operator | Meaning               |
+| -------- | --------------------- |         if [ $A -gt $B ]
+| `-eq`    | Equal                 |       
+| `-ne`    | Not Equal             |
+| `-gt`    | Greater Than          |
+| `-lt`    | Less Than             |    STRING COMPARISON 
+| `-ge`    | Greater than or Equal |         if [ "$NAME" = "Shahina" ]
+| `-le`    | Less than or Equal    |          if [ "$NAME" != "Shahina" ]
+
+
+
+
+  | Operator | Meaning                  |
+| -------- | ------------------------ |         LOGICAL OPRATR
+| `-f`     | File exists              | AND =$$
+| `-d`     | Directory exists         |OR ||
+| `-e`     | File or directory exists |NOT =!
+| `-r`     | Read permission          |
+| `-w`     | Write permission         |
+| `-x`     | Execute permission       |
+| `-s`     | File is not empty        |
+| `-z`     | String is empty          |
+| `-n`     | String is not empty      |
+
+
+
+CASE STATEMENT
+  
+case $variable in
+
+value1)
+commands
+;;
+
+value2)
+commands
+;;
+
+*)
+default
+;;
+
+esac
+
+
+
+
+
+
+
+
+  
