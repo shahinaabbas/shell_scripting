@@ -1,0 +1,25 @@
+A shell is a command-line interpreter that acts as an interface between the user and the Linux kernel.
+
+is a file contain  a seq of linux command thst  are excuted automatically by shell
+it help to automate the repeative task
+
+to create using
+             touch filename.sh= it will create
+             vim filename.sh= create and open it
+first line = #!/bin/bash
+#! = shebang  it tell the linux which interpreter should excute the script 
+bash= most [popular linux shell rich in featurs
+
+| Bash                 | sh                | Dash                    |
+| -------------------- | ----------------- | ----------------------- |
+| Advanced features    | Basic shell       | Lightweight shell       |
+| Supports arrays      | Limited features  | Very fast               |
+| Mostly used by users | Traditional shell | Used for system scripts |
+ sh is pointed to dash /bash
+
+ to excute
+ chmod +x test.sh
+./test.sh
+set -x = debug mode
+set -e = exit the script when eroor occure
+set  -o pipefail
