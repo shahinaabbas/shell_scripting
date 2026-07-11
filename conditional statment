@@ -56,6 +56,47 @@ default
 esac
 
 
+| Syntax             | Purpose                          |
+| ------------------ | -------------------------------- |mod 4
+| `$(command)`       | Run a command and use its output | echo " hostname = $(hostname)" ,echo " current user $(whoami)"
+| `[ condition ]`    | Check a condition                |
+| `$((calculation))` | Perform arithmetic               |
+
+FOR LOOP
+FOR VARIABLE IN LIST
+DO 
+    CPMMEND
+DONE
+ for i in 1 2 3 4 
+do
+   echo $i
+done
+range
+for i i  {1..10}
+for i in {1..10..2}  oyt= 135
+for c
+for((i=1;i<=5;i++))
+while loop
+WHILE [ CONDITION ]
+DO
+ COMMAND
+DONE
+EG 
+count=1
+while [ $count -eq 0 ]
+do
+  echo $count
+count=$((count+1))
+done
+
+
+
+untill loop same as while
+run while the condition is false
+stop when the condition is true
+break =stop
+continue= skip the current iteration
+
 
 
 
