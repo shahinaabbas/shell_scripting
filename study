@@ -1,0 +1,1535 @@
+
+
+# Module 1: Shell Scripting Basics
+
+## 1. What is a Shell?
+
+A **shell** is a program that accepts commands from the user and communicates with the Linux kernel.
+
+The shell understands your command and asks Linux to execute it.
+## 2. What is Shell Scripting?
+
+A **shell script** is a file containing multiple Linux commands that are executed automatically in sequence.
+
+```bash
+#!/bin/bash
+
+hostname
+whoami
+date
+df -h
+free -h
+## 3. Why Do We Need Shell Scripting?
+
+Shell scripting is used to:
+
+* Automate repetitive tasks
+* Reduce manual work
+* Save time
+* Reduce human errors
+* Perform backups
+* Monitor servers
+* Check CPU, memory, and disk usage
+* Manage files and users
+* Automate deployments
+
+### Real scenario
+
+Suppose an administrator checks server information every morning:
+
+```bash
+hostname
+whoami
+date
+free -h
+df -h
+```
+
+Instead of manually executing five commands every day, they create one script:
+
+```bash
+#!/bin/bash
+
+echo "Hostname: $(hostname)"
+echo "Current User: $(whoami)"
+echo "Current Date: $(date)"
+
+free -h
+df -h
+```
+
+Now they run:
+
+```bash
+./health.sh
+```
+
+All information is displayed automatically.
+
+---
+
+# Module 2: Bash, `sh`, and `dash`
+
+## What is Bash?
+
+Bash means:
+
+> **Bourne Again Shell**
+
+Bash is a shell and scripting language commonly used in Linux.
+
+Bash supports:
+
+* Variables
+* Arrays
+* Functions
+* Loops
+* Conditions
+* Command history
+* Tab completion
+
+Check your Bash version:
+
+```bash
+bash --version
+```
+
+---
+
+## What is `sh`?
+
+`sh` originally refers to the:
+
+> **Bourne Shell**
+
+Today, `/bin/sh` is commonly a symbolic link to another shell.
+
+Check it:
+
+```bash
+ls -l /bin/sh
+```
+
+On Ubuntu or WSL, you may see:
+
+```text
+/bin/sh -> dash
+```
+
+This means `/bin/sh` uses `dash`.
+
+On some Linux systems, `/bin/sh` may point to Bash.
+
+Therefore:
+
+> `sh` is often a compatibility interface rather than one specific shell implementation.
+
+---
+
+## What is Dash?
+
+Dash means:
+
+> **Debian Almquist Shell**
+
+Dash is:
+
+* Small
+* Fast
+* Lightweight
+* Commonly used for system scripts in Ubuntu and Debian
+
+Dash does not support every Bash-specific feature.
+
+---
+
+## Bash vs Dash vs `sh`
+
+| Feature            | Bash               | Dash                  | `sh`                      |
+| ------------------ | ------------------ | --------------------- | ------------------------- |
+| Full name          | Bourne Again Shell | Debian Almquist Shell | Bourne Shell              |
+| Speed              | Moderate           | Faster                | Depends on linked shell   |
+| Arrays             | Yes                | No                    | Not portable              |
+| Interactive use    | Common             | Less common           | Compatibility name        |
+| Advanced scripting | Yes                | Limited               | Depends on implementation |
+
+```bash
+ls -l /bin/sh = link
+
+
+# Module 3: Creating and Executing a Shell Script
+
+## Step 1: Create a file
+
+nano system.sh
+
+## Step 2: Add the script
+
+```bash
+#!/bin/bash
+
+echo "Hostname: $(hostname)"
+echo "Current User: $(whoami)"
+echo "Current Date: $(date)"
+```
+
+Save in Nano:
+
+```text
+Ctrl + O
+Enter
+Ctrl + X
+```
+
+---
+
+## Step 3: Give execute permission
+
+```bash
+chmod +x system.sh
+```
+
+## Step 4: Execute
+./system.sh
+`
+Therefore:
+
+```bash
+./system.sh
+# Module 4: Shebang
+
+The first line of many shell scripts is:
+
+```bash
+#!/bin/bash
+```
+
+This is called the **shebang**.
+
+It tells Linux:
+
+> Use Bash to execute this script.
+### Why is the shebang needed?
+
+A shell script is a text file. The operating system needs to know which interpreter should execute it.
+# Module 5: Comments and `echo
+# Module 6: Variables
+
+A variable stores a value.
+
+```bash
+NAME="Shahina"
+```
+
+Print it:
+
+```bash
+echo "$NAME"
+```
+## Important rule
+Do not add spaces around `=`.
+# Module 7: Command Substitution — `$(command)`
+
+Example:
+
+```bash
+echo "Hostname: $(hostname)"
+```
+
+`$(hostname)` means:
+
+> Execute the `hostname` command and insert its output here.
+```bash
+echo "User: $(whoami)"
+echo "Date: $(date)"
+| Syntax             | Purpose                              |
+| ------------------ | ------------------------------------ |
+| `$(command)`       | Execute a command and use its output |
+| `[ condition ]`    | Test a condition                     |
+| `$((calculation))` | Perform arithmetic                   |
+# Module 8: User Input — `read`
+
+The `read` command accepts input from the user.
+
+```bash
+read NAME
+
+echo "Hello $NAME"
+```
+
+---
+
+## `read -p`
+
+`-p` displays a prompt.
+
+```bash
+read -p "Enter your name: " NAME
+
+echo "Welcome $NAME"
+## `read -s`
+
+`-s` hides input.
+
+```bash
+read -s -p "Enter password: " PASSWORD
+## `read -t`
+Sets a time limit.
+read -t 10 -p "Enter your name: " NAME
+The command waits up to 10 seconds.
+
+---
+
+# Module 9: Command-Line Arguments
+
+Run:
+
+```bash
+./script.sh Linux AWS Docker
+```
+
+Inside the script:
+
+| Variable | Value                          |
+| -------- | ------------------------------ |
+| `$0`     | `./script.sh`                  |
+| `$1`     | `Linux`                        |
+| `$2`     | `AWS`                          |
+| `$3`     | `Docker`                       |
+| `$#`     | Number of arguments            |
+| `$@`     | All arguments                  |
+| `$$`     | Current script process ID      |
+| `$?`     | Previous command's exit status |
+# Module 10: Conditions — `if`, `elif`, and `else`
+
+Conditions allow a script to make decisions.
+
+Syntax:
+
+```bash
+if [ condition ]
+then
+    commands
+else
+    commands
+fi
+```
+
+`fi` ends the `if` block.
+
+---
+
+## Example
+
+```bash
+#!/bin/bash
+
+read -p "Enter your age: " AGE
+
+if [ "$AGE" -ge 18 ]
+then
+    echo "Adult"
+else
+    echo "Minor"
+fi
+```
+
+---
+
+## Why use `[ ]`?
+
+The brackets test whether a condition is true or false.
+
+```bash
+[ "$AGE" -ge 18 ]
+## Number comparison
+
+| Operator | Meaning               |
+| -------- | --------------------- |
+| `-eq`    | Equal                 |
+| `-ne`    | Not equal             |
+| `-gt`    | Greater than          |
+| `-lt`    | Less than             |
+| `-ge`    | Greater than or equal |
+| `-le`    | Less than or equal    |
+## String comparison
+
+| Operator | Meaning             |
+| -------- | ------------------- |
+| `=`      | Equal               |
+| `!=`     | Not equal           |
+| `-z`     | String is empty     |
+| `-n`     | String is not empty |
+
+Example:
+
+```bash
+if [ "$NAME" = "Shahina" ]
+then
+    echo "Welcome"
+fi
+
+
+# Module 11: File and Directory Conditions
+
+| Test | Meaning                      |
+| ---- | ---------------------------- |
+| `-f` | Regular file exists          |
+| `-d` | Directory exists             |
+| `-e` | Path exists                  |
+| `-r` | Readable                     |
+| `-w` | Writable                     |
+| `-x` | Executable                   |
+| `-s` | File exists and is not empty |
+
+Example:
+
+```bash
+read -p "Enter filename: " FILE
+
+if [ -f "$FILE" ]
+then
+    echo "File exists"
+else
+    echo "File does not exist"
+fi
+
+# Module 12: `case` Statement
+
+Use `case` when one value can have many choices.
+
+```bash
+#!/bin/bash
+
+echo "1. Linux"
+echo "2. Git"
+echo "3. Docker"
+
+read -p "Choose: " CHOICE
+
+case "$CHOICE" in
+    1)
+        echo "Linux selected"
+        ;;
+    2)
+        echo "Git selected"
+        ;;
+    3)
+        echo "Docker selected"
+        ;;
+    *)
+        echo "Invalid choice"
+        ;;
+esac
+
+# Module 13: Loops
+
+A loop repeats commands.
+
+## `for` loop
+
+Use when values or repetitions are known.
+
+```bash
+for i in {1..5}
+## `while` loop
+Runs while a condition is true.
+
+```bash
+COUNT=1
+
+while [ "$COUNT" -le 5 ]
+do
+    echo "$COUNT"
+    COUNT=$((COUNT + 1))
+    done
+## `until` loop
+Runs while the condition is false and stops when it becomes true.
+## Difference
+
+| Loop    | Use                                   |
+| ------- | ------------------------------------- |
+| `for`   | Known list or number of repetitions   |
+| `while` | Continue while condition is true      |
+| `until` | Continue until condition becomes true |
+
+---
+
+## `break`
+
+Stops the loop immediately.
+
+```bash
+for i in {1..10}
+do
+    if [ "$i" -eq 5 ]
+    then
+        break
+    fi
+
+    echo "$i"
+done
+
+## `continue`
+
+Skips only the current repetition.
+
+```bash
+for i in {1..5}
+do
+    if [ "$i" -eq 3 ]
+    then
+        continue
+    fi
+
+    echo "$i"
+done
+# Module 14: Functions
+
+A function is a reusable block of code.
+
+```bash
+greet()
+{
+    echo "Welcome to DevOps"
+}
+
+greet
+```
+
+Creating the function does not run it. You must call it:
+
+```bash
+greet
+```
+
+---
+
+## Function parameters
+
+```bash
+welcome()
+{
+    echo "Welcome $1"
+}
+
+welcome Shahina
+```
+
+Output:
+
+```text
+Welcome Shahina
+```
+
+---
+
+## Why use functions?
+
+* Avoid repeated code
+* Improve readability
+* Reuse code
+* Make maintenance easier
+# Module 15: Exit Status — `$?`
+
+Every Linux command returns an exit status.
+
+```text
+0 → Success
+
+Non-zero → Failure
+```
+
+Example:
+
+```bash
+ls
+
+echo "$?"
+```
+
+If successful:
+
+```text
+0
+```
+
+Try:
+
+```bash
+ls missing_file
+
+echo "$?"
+```
+
+You receive a non-zero value.
+
+---
+
+## Important
+
+`$?` stores the status of the **immediately previous command**.
+
+```bash
+mkdir project
+
+echo "$?"
+```
+
+---
+
+## `exit`
+
+Stops the script.
+
+```bash
+exit 0
+```
+
+Means successful termination.
+
+```bash
+exit 1
+```
+
+Means failure.
+
+Example:
+
+```bash
+if [ ! -f "data.txt" ]
+then
+    echo "File not found"
+    exit 1
+fi
+
+echo "Continuing..."
+```
+
+---
+
+# Module 16: Arrays
+
+An array stores multiple values under one variable name.
+
+```bash
+TOOLS=("Linux" "Git" "Docker" "AWS")
+```
+
+Indexes start from `0`.
+
+```bash
+echo "${TOOLS[0]}"
+```
+
+Output:
+
+```text
+Linux
+```
+
+Print all:
+
+```bash
+echo "${TOOLS[@]}"
+```
+
+Count:
+
+```bash
+echo "${#TOOLS[@]}"
+```
+
+Loop:
+
+```bash
+for TOOL in "${TOOLS[@]}"
+do
+    echo "$TOOL"
+done
+```
+
+Add:
+
+```bash
+TOOLS+=("Kubernetes")
+```
+
+---
+
+# Module 17: Text Processing Commands
+
+## `grep`
+
+Searches for text inside files or command output.
+
+```bash
+grep "ERROR" app.log
+```
+
+Useful options:
+
+```bash
+grep -i "error" app.log
+```
+
+Ignore uppercase/lowercase.
+
+```bash
+grep -n "ERROR" app.log
+```
+
+Show line numbers.
+
+```bash
+grep -c "ERROR" app.log
+```
+
+Count matching lines.
+
+---
+
+## `find`
+
+Searches for files and directories.
+
+```bash
+find . -name "*.sh"
+```
+
+Breakdown:
+
+* `find` → search command
+* `.` → current directory
+* `-name` → search by name
+* `"*.sh"` → all names ending in `.sh`
+
+Complete meaning:
+
+> Search the current directory and all subdirectories for names ending in `.sh`.
+
+Only files:
+
+```bash
+find . -type f -name "*.sh"
+```
+
+Only directories:
+
+```bash
+find . -type d
+```
+
+---
+
+## `grep` vs `find`
+
+| Command | Searches              |
+| ------- | --------------------- |
+| `grep`  | Text inside files     |
+| `find`  | Files and directories |
+
+Memory:
+
+> `find` finds the file.
+> `grep` finds words inside the file.
+
+---
+
+## Pipe — `|`
+
+A pipe sends the output of one command as input to another.
+
+```bash
+ps -ef | grep nginx
+```
+
+Flow:
+
+```text
+ps -ef
+   ↓
+Process list
+   ↓
+grep nginx
+   ↓
+Only matching lines
+```
+
+---
+
+## `awk`
+
+Extracts and processes columns.
+
+Suppose:
+
+```text
+Shahina 24 Palakkad
+Rahul 25 Kochi
+```
+
+Command:
+
+```bash
+awk '{print $1}' employee.txt
+```
+
+Output:
+
+```text
+Shahina
+Rahul
+```
+
+---
+
+## `cut`
+
+Extracts fields using a delimiter.
+
+File:
+
+```text
+Shahina:24:Kerala
+```
+
+Command:
+
+```bash
+cut -d ":" -f1 file.txt
+```
+
+Output:
+
+```text
+Shahina
+```
+
+---
+
+## `sort`
+
+Sorts lines.
+
+```bash
+sort names.txt
+```
+
+Numeric:
+
+```bash
+sort -n numbers.txt
+```
+
+Reverse:
+
+```bash
+sort -r names.txt
+```
+
+---
+
+## `uniq`
+
+Removes adjacent duplicate lines.
+
+```bash
+sort names.txt | uniq
+```
+
+Usually use `sort` before `uniq`.
+
+---
+
+## `wc`
+
+Counts data.
+
+```bash
+wc -l file.txt
+```
+
+Count lines.
+
+```bash
+wc -w file.txt
+```
+
+Count words.
+
+```bash
+wc -c file.txt
+```
+
+Count bytes.
+
+---
+
+## `head`
+
+Shows the beginning.
+
+```bash
+head file.txt
+```
+
+First five lines:
+
+```bash
+head -n 5 file.txt
+```
+
+---
+
+## `tail`
+
+Shows the end.
+
+```bash
+tail file.txt
+```
+
+Live log monitoring:
+
+```bash
+tail -f app.log
+```
+
+Press:
+
+```text
+Ctrl + C
+```
+
+to stop monitoring.
+
+---
+
+## `tee`
+
+Displays output and saves it simultaneously.
+
+```bash
+ls | tee files.txt
+```
+
+The output:
+
+* Appears on the terminal
+* Is saved to `files.txt`
+
+---
+
+# Module 18: `curl`
+
+`curl` is a command-line tool used to communicate with websites, web servers, and APIs using URLs.
+
+Think:
+
+> `curl` talks to a server.
+
+Example:
+
+```bash
+curl https://example.com
+```
+
+Flow:
+
+```text
+Your computer
+      │
+      │ HTTP request
+      ▼
+Web server
+      │
+      │ HTTP response
+      ▼
+Terminal
+```
+
+---
+
+## Check response headers
+
+```bash
+curl -I https://example.com
+```
+
+Possible output:
+
+```text
+HTTP/2 200
+content-type: text/html
+```
+
+`200` generally means the request succeeded.
+
+---
+
+## Save downloaded data
+
+Original filename:
+
+```bash
+curl -O URL
+```
+
+Custom filename:
+
+```bash
+curl -o output.txt URL
+```
+
+---
+
+## `curl` comparison
+
+| Command | Purpose                           |
+| ------- | --------------------------------- |
+| `find`  | Find a file                       |
+| `grep`  | Find text                         |
+| `curl`  | Communicate with a web server/API |
+| `wget`  | Mainly download files             |
+
+---
+
+# Module 19: Signals
+
+A signal is a message sent to a running process.
+
+Signals can tell a process to:
+
+* Stop
+* Terminate
+* Pause
+* Continue
+
+Common signals:
+
+| Signal    | Number | Purpose                            |
+| --------- | -----: | ---------------------------------- |
+| `SIGINT`  |      2 | Interrupt; commonly sent by Ctrl+C |
+| `SIGKILL` |      9 | Forcefully terminate               |
+| `SIGTERM` |     15 | Request graceful termination       |
+| `SIGCONT` |     18 | Continue a paused process          |
+| `SIGSTOP` |     19 | Pause a process                    |
+
+---
+
+## `SIGTERM`
+
+```bash
+kill PID
+```
+
+or:
+
+```bash
+kill -15 PID
+```
+
+Requests the program to stop gracefully.
+
+---
+
+## `SIGKILL`
+
+```bash
+kill -9 PID
+```
+
+Forcefully stops the process.
+
+Use it only when normal termination does not work.
+
+---
+
+## Interview difference
+
+| SIGTERM                      | SIGKILL                            |
+| ---------------------------- | ---------------------------------- |
+| Graceful termination request | Immediate forced termination       |
+| Signal 15                    | Signal 9                           |
+| Program may clean up         | Program cannot handle or ignore it |
+
+---
+
+# Module 20: Redirection — Complete Notes
+
+This is very important.
+
+Every Linux program has:
+
+```text
+Input
+  ↓
+Program
+  ↓
+Output/Error
+```
+
+Linux uses three standard streams:
+
+| Number | Stream | Default  |
+| -----: | ------ | -------- |
+|    `0` | stdin  | Keyboard |
+|    `1` | stdout | Terminal |
+|    `2` | stderr | Terminal |
+
+---
+
+## `>` — Save Normal Output
+
+```bash
+ls > files.txt
+```
+
+Meaning:
+
+> Execute `ls` and save its normal output in `files.txt`.
+
+If `files.txt` exists, its old content is replaced.
+
+### Real scenario
+
+Save today's server report:
+
+```bash
+df -h > disk_report.txt
+```
+
+Use `>` when:
+
+* You want a fresh report
+* You don't need the old file content
+* You want to save command output
+
+---
+
+## `>>` — Append Normal Output
+
+```bash
+date >> backup.log
+```
+
+Adds output to the end without deleting old content.
+
+### Real scenario
+
+A backup runs every day. Keep all dates:
+
+```bash
+echo "Backup completed: $(date)" >> backup.log
+```
+
+Use `>>` when:
+
+* Keeping history
+* Writing logs
+* Adding new information
+
+---
+
+## `<` — Input Redirection
+
+```bash
+sort < names.txt
+```
+
+Meaning:
+
+> Let `sort` receive input from `names.txt` instead of the keyboard.
+
+### Real scenario
+
+A script normally asks the user for input:
+
+```bash
+read NAME
+
+echo "Hello $NAME"
+```
+
+Instead of typing:
+
+```bash
+./hello.sh < input.txt
+```
+
+The script reads from the file automatically.
+
+Use `<` when:
+
+* A command expects keyboard input
+* You want to provide input automatically from a file
+
+---
+
+## `2>` — Save Only Errors
+
+```bash
+ls missing_file 2> error.log
+```
+
+Meaning:
+
+> Save stderr in `error.log`.
+
+### Real scenario
+
+A deployment script produces errors. Save them for troubleshooting:
+
+```bash
+./deploy.sh 2> deploy_error.log
+```
+
+Use `2>` when:
+
+* Debugging
+* Saving only error messages
+* Creating a fresh error report
+
+---
+
+## `2>>` — Append Errors
+
+```bash
+./script.sh 2>> error.log
+```
+
+Adds errors without deleting previous errors.
+
+Use it when:
+
+* Keeping error history
+* Running recurring jobs
+* Troubleshooting failures over time
+
+---
+
+## `&>` — Save Output and Errors
+
+```bash
+./install.sh &> install.log
+```
+
+Saves:
+
+* Normal output
+* Error output
+
+in the same file.
+
+Use it when:
+
+* You need a complete execution record
+* Installing software
+* Running deployments
+* Troubleshooting
+
+---
+
+## `/dev/null`
+
+`/dev/null` discards anything written to it.
+
+```bash
+ls > /dev/null
+```
+
+The `ls` command still executes, but its normal output is not displayed.
+
+The files are not deleted. Only the command output is discarded.
+
+### Why is it useful?
+
+Sometimes you only need to know:
+
+> Did the command succeed or fail?
+
+You don't need to see its output.
+
+Example:
+
+```bash
+command -v git > /dev/null
+```
+
+Then:
+
+```bash
+echo "$?"
+```
+
+`0` means success.
+
+---
+
+## Hide only normal output
+
+```bash
+command > /dev/null
+```
+
+Errors can still appear.
+
+---
+
+## Hide only errors
+
+```bash
+command 2> /dev/null
+```
+
+Normal output can still appear.
+
+---
+
+## Hide both
+
+```bash
+command &> /dev/null
+```
+
+or:
+
+```bash
+command > /dev/null 2>&1
+```
+
+---
+
+## What does `2>&1` mean?
+
+Breakdown:
+
+```text
+2 → stderr
+
+> → redirect
+
+&1 → same destination as stdout
+```
+
+Therefore:
+
+```bash
+command > output.log 2>&1
+```
+
+means:
+
+1. Send stdout to `output.log`.
+2. Send stderr to the same place as stdout.
+
+Both go to `output.log`.
+
+---
+
+## Redirection quick table
+
+| Syntax         | Meaning                |
+| -------------- | ---------------------- |
+| `>`            | Save stdout; overwrite |
+| `>>`           | Save stdout; append    |
+| `<`            | Read stdin from a file |
+| `2>`           | Save stderr; overwrite |
+| `2>>`          | Save stderr; append    |
+| `&>`           | Save stdout and stderr |
+| `> /dev/null`  | Discard normal output  |
+| `2> /dev/null` | Discard errors         |
+| `&> /dev/null` | Discard both           |
+
+---
+
+# Important Interview Comparison
+
+## `>` vs `>>`
+
+```bash
+echo "Linux" > file.txt
+```
+
+Replaces old content.
+
+```bash
+echo "Docker" >> file.txt
+```
+
+Adds new content.
+
+---
+
+## `>` vs `2>`
+
+```bash
+command > output.log
+```
+
+Saves normal output.
+
+```bash
+command 2> error.log
+```
+
+Saves errors.
+
+---
+
+## `2>` vs `&>`
+
+```bash
+command 2> error.log
+```
+
+Only errors are saved.
+
+```bash
+command &> all.log
+```
+
+Both output and errors are saved.
+
+---
+
+# Final Shell Script Example
+
+```bash
+#!/bin/bash
+
+echo "===== SYSTEM HEALTH REPORT ====="
+
+echo "Hostname: $(hostname)"
+echo "Current User: $(whoami)"
+echo "Date: $(date)"
+
+echo
+echo "===== MEMORY ====="
+free -h
+
+echo
+echo "===== DISK ====="
+df -h
+
+echo
+echo "===== REPORT COMPLETED ====="
+```
+
+Save:
+
+```bash
+nano health.sh
+```
+
+Give permission:
+
+```bash
+chmod +x health.sh
+```
+
+Run:
+
+```bash
+./health.sh
+```
+
+Save the report:
+
+```bash
+./health.sh > health_report.txt
+```
+
+Append future reports:
+
+```bash
+./health.sh >> health_history.log
+```
+
+Save errors separately:
+
+```bash
+./health.sh > health_report.txt 2> health_error.log
+```
+
+Save everything:
+
+```bash
+./health.sh &> complete_report.log
+```
+
+---
+
+# Quick Interview Revision
+
+You should be able to answer these:
+
+1. **What is shell scripting?**
+   Writing Linux commands in a file to automate tasks.
+
+2. **What is Bash?**
+   Bash is the Bourne Again Shell, commonly used as a Linux command interpreter and scripting language.
+
+3. **What is a shebang?**
+   It specifies which interpreter executes the script.
+
+4. **What does `chmod +x` do?**
+   Adds execute permission.
+
+5. **What does `./script.sh` mean?**
+   Execute the script from the current directory.
+
+6. **What is `$1`?**
+   First command-line argument.
+
+7. **What is `$#`?**
+   Number of command-line arguments.
+
+8. **What is `$?`?**
+   Exit status of the previous command.
+
+9. **What does exit status `0` mean?**
+   Success.
+
+10. **Why use `if`?**
+    To make decisions based on conditions.
+
+11. **Why use loops?**
+    To repeat tasks automatically.
+
+12. **Why use functions?**
+    To reuse code and reduce duplication.
+
+13. **What does `grep` do?**
+    Searches text.
+
+14. **What does `find` do?**
+    Searches for files and directories.
+
+15. **What does `curl` do?**
+    Communicates with web servers and APIs.
+
+16. **What is a pipe?**
+    Sends one command's output to another command.
+
+17. **What is stdout?**
+    Normal output, file descriptor `1`.
+
+18. **What is stderr?**
+    Error output, file descriptor `2`.
+
+19. **What does `>` do?**
+    Redirects stdout and overwrites the destination file.
+
+20. **What does `>>` do?**
+    Appends stdout.
+
+21. **What does `/dev/null` do?**
+    Discards unwanted output.
+
+22. **What is SIGTERM?**
+    A graceful termination request.
+
+23. **What is SIGKILL?**
+    Immediate forced term
