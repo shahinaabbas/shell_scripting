@@ -1,0 +1,21 @@
+grep
+echo grep "shahina" filename
+grep -c count the numbwrs
+-n show line number
+PIPE
+sendva output of one command to input of others
+
+AWK
+ extract the specific column
+ awk '{print $1}' filename
+ CUT
+ to extract the specific field 
+
+
+
+ find
+ find [where to search] [option] [want to search ]
+ find . -name "*.sh"
+ find files
+ find . -type f
+ find . -empty
